@@ -1,105 +1,111 @@
-# 🍃 FreshLens AI — See Fresh. Sell Smart.
+# 💧 GlucoGuide
 
-**Intelligent Fruit Quality Assessment for Smart Retail Using Deep Learning**
+**AI-Based Diabetes Prediction, Classification & Personalized Recommendation System**
+*Predict. Explain. Personalize. Prevent.*
 
-FreshLens AI is a computer vision system that automatically classifies fruit as **fresh or rotten** from a single image, in real time, using a lightweight deep learning model (MobileNetV2). It's built to plug into the fruit supply chain — from farm collection points and wholesale markets to retail shelves — and turn manual, inconsistent visual inspection into an instant, auditable, AI-driven decision.
+A graduation project developed under the **Digital Pioneers Initiative (رواد رقميون)**, Track: Applied AI & Data Analytics.
 
 ---
 
 ## 🎯 The Problem
 
-Egypt wastes an estimated **18 million tonnes of food per year** (~155 kg per person), one of the highest rates in the world (UNEP Food Waste Index Report 2024). Fruits and vegetables are the worst-performing food category globally, with loss rates climbing from 23.2% to 25.4% between 2015–2023 (FAO SDG 12.3.1). A big share of that loss happens *before* the product ever reaches a shelf — at the farm, in transport, and at wholesale — where inspection is manual, slow, and inconsistent.
+Diabetes is one of the fastest-growing global health challenges — **589M adults** live with it worldwide (projected to reach **853M by 2050**), and **43% of them don't know it yet**. Egypt has the **highest diabetes burden in the MENA region**, with **13.2 million adults affected** and an age-standardised prevalence roughly double the global average.
+
+Existing tools fall short in several ways:
+- **Prediction without explanation** — models optimize accuracy but give no rationale clinicians or patients can trust.
+- **No personalized guidance** — few systems translate a risk score into actionable, individual advice.
+- **No lifestyle simulation** — users can't explore "what if" scenarios (e.g. quitting smoking, sleeping more, becoming active).
+- **Fragmented features** — clinical and behavioral/lifestyle data are rarely combined in one predictive framework.
+- **Limited real-world deployment** — most models stay inside research notebooks.
 
 ## 💡 The Solution
 
-FreshLens AI replaces manual sorting with an automated vision pipeline:
+**GlucoGuide** is an end-to-end AI platform that turns raw patient data into a trustworthy, actionable prevention plan:
 
-**Capture → AI Analysis (Computer Vision) → Quality Classification (Fresh / Rotten) → Business Action (Sell / Discount / Remove)**
+`Patient Data → AI Risk Prediction → SHAP Explanation → RAG Nutrition Support → Web Interface → Doctor Monitoring`
 
-The model inspects fruit images and returns a confidence-scored freshness verdict per item, enabling faster inspection, lower operational cost, less waste, and better product quality reaching the customer.
+It combines **machine learning risk prediction**, **explainable AI (SHAP)**, an **evidence-grounded RAG nutrition assistant**, and an **interactive Streamlit web application** — unifying accuracy, explainability, personalization, and real-world usability in a single platform.
 
 ## 👥 Who It's For
 
-- **Retailers & supermarkets** — automate quality checks on incoming produce and shelf stock.
-- **Wholesale markets & packing houses** — catch spoilage earlier in the supply chain, where most loss occurs.
-- **Exporters** — generate objective, auditable quality records for shipments (e.g. Egypt's orange exports).
-- **Policy & sustainability stakeholders** — a measurable tool to support Egypt's food-waste reduction efforts.
+- **Patients / at-risk individuals** — enter their data, get a risk score with a plain explanation, simulate lifestyle changes, and ask nutrition questions.
+- **Doctors & clinicians** — monitor multiple patients, prioritize high-risk cases, verify OCR-extracted lab values, and use SHAP explanations to support clinical discussion.
+- **Clinics & health platforms** — integrate a transparent, auditable AI layer into existing care workflows.
 
 ## ✅ Value Delivered
 
-| Benefit | Description |
-|---|---|
-| 🗑️ Reduce Food Waste | Detects rotten fruit early to prevent losses at every stage |
-| ⚡ Faster Inspection | Automates quality checks and inspects large volumes in seconds |
-| 💰 Lower Operational Cost | Minimizes manual effort and reduces sorting errors |
-| ⭐ Better Customer Satisfaction | Delivers consistently higher-quality fruit |
+Better decisions · Healthier outcomes · Lower costs · Stronger prevention — by connecting AI, clinical expertise, and nutrition science into one proactive care loop (Prediction → Explainability → Personalization → Prevention).
 
 ---
 
 ## 🧠 What We Built
 
 ### Dataset
-- **13,121 images** across **3 fruit categories** (Banana, Mango, Orange) × **2 quality classes** (Fresh, Rotten) = **6 classes**
-- Collected under diverse real-world conditions: varying lighting, camera angles, backgrounds, fruit sizes, and spoilage patterns — improving robustness and generalization.
-- Balanced class distribution, verified via exploratory data analysis (EDA), with no severe class imbalance.
+- **100,000 patient records**, **31 original features** (Kaggle Diabetes Healthcare Dataset)
+- Feature groups: **Demographic** (age, gender, ethnicity, education, income, employment), **Lifestyle** (smoking, alcohol, physical activity, diet score, sleep, screen time), **Medical History** (family history, hypertension, cardiovascular history), **Clinical & Laboratory** (BMI, waist-hip ratio, blood pressure, HDL/LDL, triglycerides, glucose, insulin, HbA1c)
+- Target variable: `diagnosed_diabetes`. Leakage-prone fields (`diabetes_risk_score`, `Diagnosis_encoded`) were explicitly excluded.
 
-### Data Pipeline
-Raw Images → Label Encoding → Train/Val/Test Split (70/15/15) → RGB Conversion → Resize (224×224) → Normalization → Data Augmentation (training set only) → Shuffle → Batch → Prefetch
+### Machine Learning Pipeline
+Data → Preprocessing → Feature Engineering → Feature Selection → Model Training → Model Evaluation → Final Model
 
-### Modeling Approach
-Two models were trained and compared:
+- **Preprocessing:** cleaning & validation, encoding & scaling, stratified 80/15/5 train/validation/test split.
+- **Feature engineering:** created clinically meaningful ratios — BMI-to-Waist-Hip Ratio (central obesity), Total Cholesterol-to-HDL Ratio (cardiometabolic risk), Triglyceride-Glucose (TyG) Index (insulin resistance), Sleep-to-Screen Time Ratio (lifestyle balance), and a Postprandial-to-Fasting Glucose Ratio.
+- **Feature selection:** Mutual Information analysis to retain the strongest predictive features; a PCA experiment reduced the feature space from 32 features to 3 components while retaining 95.57% of variance.
+- **Class imbalance study:** compared Original vs. ROS vs. SMOTE vs. SMOTEENN resampling — the original (imbalanced) data gave the best overall performance and was used for final training.
+- **Model training & tuning:** GridSearchCV with stratified cross-validation, identical preprocessing across all models, all experiments tracked in MLflow.
 
-1. **Baseline CNN** (custom architecture) — Conv2D + BatchNorm + MaxPooling stack, GlobalAveragePooling, Dropout, Dense layers, Softmax output.
-2. **MobileNetV2 (Transfer Learning)** — pretrained on ImageNet, fine-tuned for this 6-class classification task.
+### Models Compared
+Five algorithms were trained and evaluated on identical data: **SVM**, **Random Forest**, **XGBoost**, **LightGBM**, and a **Multi-Layer Perceptron (MLP)** neural network used as the deep learning benchmark for capturing nonlinear feature interactions.
 
-**Why transfer learning:** faster training (epoch time dropped from ~210s to ~70s), a lightweight footprint suited for edge/mobile deployment, and higher accuracy from less data.
+| Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
+|---|---|---|---|---|---|
+| SVM | 86.93% | 87.40% | 86.93% | 86.95% | 93.88% |
+| **MLP (Neural Network)** | 90.47% | 91.23% | 90.47% | 90.42% | 94.42% |
+| Random Forest | 91.63% | 92.59% | 91.63% | 91.52% | 94.86% |
+| **XGBoost (Final Model)** | **91.63%** | **92.58%** | **91.63%** | **91.54%** | **95.12%** 🏆 |
+| LightGBM | 91.20% | 91.95% | 91.20% | 91.10% | 94.95% |
 
-### Training Configuration
-- Optimizer: Adam | Learning rate: 0.001 | Batch size: 32 | Loss: Sparse Categorical Crossentropy
-- Callbacks: `EarlyStopping` (patience=5), `ReduceLROnPlateau` (factor=0.2)
+**XGBoost** was selected as the final model for its highest overall performance, robustness, ability to handle feature complexity, native SHAP compatibility, and efficient deployment footprint.
 
-### Explainability
-Used **Grad-CAM** to visualize which regions of the fruit the model focuses on — confirming attention concentrates on bruised/discolored areas, making decisions auditable (a manager can verify *why* an item was flagged as rotten).
+### Explainable AI
+Used **SHAP** to turn every prediction into a transparent explanation:
+- **Global importance:** ranks features by overall impact — **HbA1c** is the strongest predictor, followed by postprandial and fasting glucose, then family history and age.
+- **Individual explanation:** shows how each feature influenced a specific patient's risk score.
+- This builds clinical trust and lets doctors verify *why* a patient was flagged as high-risk.
 
----
+### RAG Nutrition Assistant
+An evidence-grounded Retrieval-Augmented Generation (RAG) assistant answers patient nutrition questions using a trusted clinical source (*Nutritional Management of Diabetes Mellitus* — Frost, 2003), processed into **271 pages / 312 chunks**:
 
-## 📊 Results
+`Document Cleaning → Section-Aware Chunking → BM25 + Semantic Index → Hybrid Retrieval (50/50 lexical + semantic) → Cross-Encoder Reranking → Context Filtering → Grounded Answer`
 
-| Metric | Baseline CNN | **MobileNetV2 (Final Model)** |
-|---|---|---|
-| Accuracy | 94.37% | **96.19%** |
-| Precision | 94.28% | **96.22%** |
-| Recall | 94.31% | **96.19%** |
-| F1-Score | 94.29% | **96.19%** |
-| Inference Time | 18.73 ms/image | **11.25 ms/image** |
-| Model Size | 20.14 MB | **9.27 MB** |
-| Error Rate (test set) | 3.81% (75/1,969 wrong) | **1.42% (28/1,969 wrong)** |
+This ensures every nutrition answer is generated **only from retrieved, verified evidence** — not hallucinated.
 
-MobileNetV2 outperformed the baseline on every metric while being smaller and faster — confirming it as the better choice for real-world, in-store deployment. Most remaining errors occur between visually similar classes (e.g. rotten mango vs. rotten orange) — cases a human would also find ambiguous.
-
----
-
-## 🚀 Deployment Vision
-
-At **~10 ms per image** and a **9.27 MB** model footprint, FreshLens AI is light enough to run on edge devices (e.g. a shelf-mounted or conveyor camera) without a server-side bottleneck:
-
-`Supermarket Camera → AI Inspection (MobileNetV2) → Quality Classification → Inventory Optimization (restock / discount / remove)`
-
-## 🔭 What's Next
-
-- Expand to more fruit and vegetable categories
-- Mobile application for store staff
-- Real-time camera integration
-- Full edge AI deployment in-store
+### Platform Features
+- **Risk prediction** with confidence score and diabetes-stage classification
+- **SHAP-based explainability** for every prediction
+- **Lifestyle simulation** — explore how changing smoking, activity, sleep, or BMI affects risk
+- **RAG-powered nutrition Q&A assistant**
+- **OCR** for automated extraction from lab reports
+- **Interactive Streamlit web app** with separate Patient and Doctor portals
+- **Doctor dashboard** for monitoring multiple patients and reviewing high-risk cases
 
 ---
 
 ## 🛠️ Tech Stack
-`Python` · `TensorFlow / Keras` · `MobileNetV2 (Transfer Learning)` · `Convolutional Neural Networks` · `Grad-CAM` · `NVIDIA GPU`
+`Python` · `Scikit-learn` · `XGBoost` · `LightGBM` · `MLP / Neural Networks` · `SHAP` · `RAG (BM25 + Semantic Search + Cross-Encoder Reranking)` · `OCR` · `LLMs` · `Streamlit` · `MLflow`
 
-## 👩‍💻 Team
-Haidy · Safaa · Samah · Shahinaz · Sally
+## 🔭 Future Work
+CGM (Continuous Glucose Monitor) integration · Clinical/EHR integration · Longitudinal patient monitoring · RAG knowledge base expansion · Advanced OCR for diverse lab formats · Automated model recalibration · Smart clinical alerts
+
+## 🎓 About the Project
+Graduation project — **Digital Pioneers Initiative (رواد رقميون)**, Track: Applied AI & Data Analytics
+Supervisor: Dr. Kamel El-Hadad · Track Head: Dr. Aya Hossam
+
+**Team:** Shahinaz Abdelawad · Samah Mohamed Mesilhy · Samar Ahmed Mahmoud · Safaa Samy Mohamed · Haidy Ashraf AbdElazeam · Sally El Sayed Mostafa
+
+### My Role
+Worked on the machine learning modeling track — building and evaluating the **MLP neural network model** as the deep learning benchmark, contributing to **feature engineering** (clinically-derived ratio features and their evaluation via Mutual Information/PCA), and developing the **RAG-based nutrition assistant** (document processing, hybrid retrieval, and grounded answer generation).
 
 ---
 
-*"See Fresh. Sell Smart."*
+*"From Prediction to Prevention."*
