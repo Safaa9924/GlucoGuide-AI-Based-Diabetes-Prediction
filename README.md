@@ -3,7 +3,7 @@
 **AI-Based Diabetes Prediction, Classification & Personalized Recommendation System**
 *Predict. Explain. Personalize. Prevent.*
 
-A graduation project developed under the **Digital Pioneers Initiative (رواد رقميون)**, Track: Applied AI & Data Analytics.
+A graduation project developed under the **DIGILIANS, Track: Applied AI & Data Analytics.
 
 ---
 
