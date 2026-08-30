@@ -98,7 +98,7 @@ This ensures every nutrition answer is generated **only from retrieved, verified
 CGM (Continuous Glucose Monitor) integration · Clinical/EHR integration · Longitudinal patient monitoring · RAG knowledge base expansion · Advanced OCR for diverse lab formats · Automated model recalibration · Smart clinical alerts
 
 ## 🎓 About the Project
-Graduation project — **Digital Pioneers Initiative (رواد رقميون)**, Track: Applied AI & Data Analytics
+Graduation project — DIGILIANS, Track: Applied AI & Data Analytics
 Supervisor: Dr. Kamel El-Hadad · Track Head: Dr. Aya Hossam
 
 **Team:** Shahinaz Abdelawad · Samah Mohamed Mesilhy · Samar Ahmed Mahmoud · Safaa Samy Mohamed · Haidy Ashraf AbdElazeam · Sally El Sayed Mostafa
