@@ -1,9 +1,25 @@
 # 💧 GlucoGuide
 
-**AI-Based Diabetes Prediction, Classification & Personalized Recommendation System**
-*Predict. Explain. Personalize. Prevent.*
+**AI-Based Diabetes Prediction, Classification & Personalized Recommendation System**  
+*Predict. Explain. Prevent.*
 
 A graduation project developed under the DIGILIANS, Track: Applied AI & Data Analytics.
+
+---
+
+## 🌟 System Overview & UI
+
+<p align="center">
+  <img src="مشروع التخرج.jpg" alt="GlucoGuide Web Interface" width="100%"/>
+</p>
+
+---
+
+## 📊 Project Infographic
+
+<p align="center">
+  <img src="infogrphe.jpg" alt="GlucoGuide Project Infographic" width="100%"/>
+</p>
 
 ---
 
@@ -98,7 +114,7 @@ This ensures every nutrition answer is generated **only from retrieved, verified
 CGM (Continuous Glucose Monitor) integration · Clinical/EHR integration · Longitudinal patient monitoring · RAG knowledge base expansion · Advanced OCR for diverse lab formats · Automated model recalibration · Smart clinical alerts
 
 ## 🎓 About the Project
-Graduation project — DIGILIANS, Track: Applied AI & Data Analytics
+Graduation project — DIGILIANS, Track: Applied AI & Data Analytics  
 Supervisor: Dr. Kamel El-Hadad · Track Head: Dr. Aya Hossam
 
 **Team:** Shahinaz Abdelawad · Samah Mohamed Mesilhy · Samar Ahmed Mahmoud · Safaa Samy Mohamed · Haidy Ashraf AbdElazeam · Sally El Sayed Mostafa
